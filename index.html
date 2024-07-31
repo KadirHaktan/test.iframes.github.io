@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iframe Cards</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .card {
+            width: 300px;
+            margin: 10px;
+        }
+        .iframe-container {
+            width: 100%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <button id="executeIframes" class="btn btn-primary mb-4">Execute to iframes</button>
+        <div class="card-container">
+            <!-- Cards will be appended here by JavaScript -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cardContainer = document.querySelector('.card-container');
+            const executeButton = document.getElementById('executeIframes');
+
+            for (let i = 0; i < 10; i++) {
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                card.innerHTML = `
+                    <div class="card-body">
+                        <input type="text" class="form-control mb-2 url-input" placeholder="Enter URL">
+                        <button class="btn btn-success btn-block load-iframe">Load Iframe</button>
+                        <div class="iframe-container mt-3">
+                            <iframe src="" frameborder="0" class="w-100 h-100"></iframe>
+                        </div>
+                    </div>
+                `;
+
+                cardContainer.appendChild(card);
+            }
+
+            cardContainer.addEventListener('click', (event) => {
+                if (event.target.classList.contains('load-iframe')) {
+                    const cardBody = event.target.closest('.card-body');
+                    const input = cardBody.querySelector('.url-input');
+                    const iframe = cardBody.querySelector('iframe');
+                    iframe.src = input.value;
+                }
+            });
+
+            executeButton.addEventListener('click', () => {
+                const iframes = document.querySelectorAll('.card iframe');
+                iframes.forEach(iframe => {
+                    const cardBody = iframe.closest('.card-body');
+                    const input = cardBody.querySelector('.url-input');
+                    iframe.src = input.value;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
