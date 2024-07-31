@@ -43,11 +43,9 @@
 
                 card.innerHTML = `
                     <div class="card-body">
-                        <input type="text" class="form-control mb-2 url-input" placeholder="Enter URL">
+                        <input type="text" class="form-control mb-2 url-input" value="<iframe src='https://example.com/${i + 1}' frameborder='0' class='w-100 h-100'></iframe>">
                         <button class="btn btn-success btn-block load-iframe">Load Iframe</button>
-                        <div class="iframe-container mt-3">
-                            <iframe src="" frameborder="0" class="w-100 h-100"></iframe>
-                        </div>
+                        <div class="iframe-container mt-3"></div>
                     </div>
                 `;
 
@@ -58,17 +56,17 @@
                 if (event.target.classList.contains('load-iframe')) {
                     const cardBody = event.target.closest('.card-body');
                     const input = cardBody.querySelector('.url-input');
-                    const iframe = cardBody.querySelector('iframe');
-                    iframe.src = input.value;
+                    const iframeContainer = cardBody.querySelector('.iframe-container');
+                    iframeContainer.innerHTML = input.value;
                 }
             });
 
             executeButton.addEventListener('click', () => {
-                const iframes = document.querySelectorAll('.card iframe');
-                iframes.forEach(iframe => {
-                    const cardBody = iframe.closest('.card-body');
-                    const input = cardBody.querySelector('.url-input');
-                    iframe.src = input.value;
+                const inputs = document.querySelectorAll('.card .url-input');
+                inputs.forEach(input => {
+                    const cardBody = input.closest('.card-body');
+                    const iframeContainer = cardBody.querySelector('.iframe-container');
+                    iframeContainer.innerHTML = input.value;
                 });
             });
         });
